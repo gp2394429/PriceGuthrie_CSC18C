@@ -1,0 +1,110 @@
+/**
+ * GuessingGame.java
+ *
+ *
+ * Author: Guthrie Price 
+ * 6/10/2015
+ * Purpose: Driver program for the game collection
+ */
+
+import java.util.Scanner;
+import java.util.Random;
+
+public class GuessingGame{
+
+    private Scanner input;
+    private Random generator;
+    private final int MAX = 1000;
+    //Strings for the computer to berate you with
+    private final String[] truth = {"Are you even trying to win?","How are you going to win at this rate?","This is too easy.","Feel like giving up yet?"};
+    private final String[] lies = {"Did you really think you could trick me so easily?","Nice try filth, but I see right through you.","I guess you must not have many morals.","You humans are all the same, you would do anything to win."};
+    private final String[] win = {"Nice try, but I'm sure I already won.","You're pathetic.","Typical for your species, can't admit when you're beaten"};
+    private final String[] resign = {"So you admit defeat, probably the smartest thing you've ever done.","Giving up? Probably for the best.","Yeah, you would have lost pretty soon anyway."};
+
+    public GuessingGame(Scanner input){
+        this.input = input;
+        generator = new Random();
+    }
+    public void run(){
+        boolean running = true;
+        boolean gameOver = false;
+        int userChoice;
+        int num;
+        int aiGuess;
+        int userChoice2;
+        int guesses;
+
+        while(running){
+            mainMenu();
+            userChoice = Utility.getNumber("Choose a menu option",1,2,input);
+            switch(userChoice){
+                case 1:
+                    //Generate the guessing tree
+                    AVLTree tree = new AVLTree();
+                    for(int i=0;i<MAX;i++)
+                        tree.insert(i+1);
+                    num = Utility.getNumber("Choose a number for the computer to guess",1,MAX,input);
+                    AVLNode node = tree.getRoot();
+                    guesses = 9;
+                    System.out.println("Prepare to lose silly human");
+                    while(!gameOver){
+                        aiGuess = node.data;
+                        System.out.println("\nI only have "+guesses+" left. Maybe you can win!");
+                        System.out.println("My guess is: "+aiGuess+"\n");
+                        System.out.println("1. Greater than "+aiGuess);
+                        System.out.println("2. Smaller than "+aiGuess);
+                        System.out.println("3. Admit defeat\n");
+                        userChoice2 = Utility.getNumber("Choose a menu option",1,3,input);
+                        System.out.println();
+                        switch(userChoice2){
+                            case 1:
+                                if(num == aiGuess){
+                                    System.out.println(win[generator.nextInt(win.length)]);
+                                    gameOver = true;
+                                }
+                                else if(num < aiGuess){
+                                    System.out.println(lies[generator.nextInt(lies.length)]);
+                                    node = node.left;
+                                }
+                                else{
+                                    System.out.println(truth[generator.nextInt(truth.length)]);
+                                    node = node.right;
+                                }
+                                break;
+                            case 2:
+                                if(num == aiGuess){
+                                    System.out.println(win[generator.nextInt(win.length)]);
+                                    gameOver = true;
+                                }
+                                else if(num > aiGuess){
+                                    System.out.println(lies[generator.nextInt(lies.length)]);
+                                    node = node.right;
+                                }
+                                else{
+                                    System.out.println(truth[generator.nextInt(truth.length)]);
+                                    node = node.left;
+                                } 
+                                break;
+                            case 3:
+                                System.out.println(resign[generator.nextInt(resign.length)]);
+                                gameOver = true;
+                                break;
+                        }
+                        guesses--;
+                    }
+                    System.out.println("Congratulations! You lost!\n");
+                    break;
+                case 2:
+                    System.out.println("\nCoward.\n");
+                    running = false;
+                    break;
+            }
+        }
+    }
+    private void mainMenu(){
+        System.out.println("Welcome to the Masochistic Guessing Game\n--------------");
+        System.out.println("1. Play");
+        System.out.println("2. Exit\n");
+    }
+}
+

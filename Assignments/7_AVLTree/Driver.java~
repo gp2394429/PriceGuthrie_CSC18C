@@ -1,0 +1,27 @@
+import java.util.Random;
+
+public class Driver{
+
+    public static void main(String args[]){
+        Random generator = new Random();
+        int randNums = 10;
+        int array[] = new int[randNums];
+        AVLTree tree = new AVLTree();
+        int num;
+        for(int i=0;i<randNums;i++){
+            num=generator.nextInt(randNums*10);
+            array[i] = num;
+            System.out.println("Inserting "+num);
+            tree.insert(num);
+            tree.preOrder();
+            System.out.println();
+        }
+        for(int i=0;i<3;i++){
+            num=generator.nextInt(randNums);
+            System.out.println("Removing "+array[num]);
+            tree.remove(array[num]);
+            tree.preOrder();
+            System.out.println();
+        }
+    }
+}

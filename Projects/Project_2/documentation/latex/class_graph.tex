@@ -1,0 +1,127 @@
+\hypertarget{class_graph}{}\section{Graph Class Reference}
+\label{class_graph}\index{Graph@{Graph}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_graph_a3b41cdad7e5c5b479da2a4997b172ce1}{Graph} (int max\+Size)
+\item 
+\hyperlink{class_vertex}{Vertex}\mbox{[}$\,$\mbox{]} \hyperlink{class_graph_af46666375cb587dac0b9cb030c16a359}{get\+Vers} ()
+\item 
+int\mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]} \hyperlink{class_graph_a252104f18213cb0f6e73487b26d22ef9}{get\+Edges} ()
+\item 
+void \hyperlink{class_graph_a9fa92fc6b57eb073390f5933689909df}{set\+Vers} (\hyperlink{class_vertex}{Vertex}\mbox{[}$\,$\mbox{]} vers)
+\item 
+void \hyperlink{class_graph_a0a5d1176c1e5096f098a1f49271270d3}{set\+Edges} (int\mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]} edges)
+\item 
+int \hyperlink{class_graph_a3c51c040b54dfabf3f083f754928642f}{ver\+In\+Graph} (\hyperlink{class_vertex}{Vertex} v)
+\item 
+boolean \hyperlink{class_graph_ada66ac66d7a77f7a2b47ca33f7af5105}{add\+Vertex} (\hyperlink{class_vertex}{Vertex} v)
+\item 
+boolean \hyperlink{class_graph_a1d3e23f0b7be69dfcd3818e841cc6967}{add\+Edge} (\hyperlink{class_vertex}{Vertex} start, \hyperlink{class_vertex}{Vertex} end, int weight)
+\item 
+void \hyperlink{class_graph_aa58f9b45f4cd1b86169b7fc144175156}{connect} ()
+\item 
+void \hyperlink{class_graph_a00e73276d8291687bdfaf701ef32bb0c}{remove\+Edge} (\hyperlink{class_vertex}{Vertex} v1, \hyperlink{class_vertex}{Vertex} v2)
+\item 
+\hyperlink{class_graph}{Graph} \hyperlink{class_graph_a413b9997f5a2e850a78ad8f7aad89dab}{min\+Span\+Tree} ()
+\item 
+String \hyperlink{class_graph_a713307d8b2e43a9b717ca80f2d9fc8b0}{to\+String} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_graph_a3b41cdad7e5c5b479da2a4997b172ce1}{}\index{Graph@{Graph}!Graph@{Graph}}
+\index{Graph@{Graph}!Graph@{Graph}}
+\subsubsection[{Graph}]{\setlength{\rightskip}{0pt plus 5cm}Graph.\+Graph (
+\begin{DoxyParamCaption}
+\item[{int}]{max\+Size}
+\end{DoxyParamCaption}
+)}\label{class_graph_a3b41cdad7e5c5b479da2a4997b172ce1}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_graph_a1d3e23f0b7be69dfcd3818e841cc6967}{}\index{Graph@{Graph}!add\+Edge@{add\+Edge}}
+\index{add\+Edge@{add\+Edge}!Graph@{Graph}}
+\subsubsection[{add\+Edge}]{\setlength{\rightskip}{0pt plus 5cm}boolean Graph.\+add\+Edge (
+\begin{DoxyParamCaption}
+\item[{{\bf Vertex}}]{start, }
+\item[{{\bf Vertex}}]{end, }
+\item[{int}]{weight}
+\end{DoxyParamCaption}
+)}\label{class_graph_a1d3e23f0b7be69dfcd3818e841cc6967}
+\hypertarget{class_graph_ada66ac66d7a77f7a2b47ca33f7af5105}{}\index{Graph@{Graph}!add\+Vertex@{add\+Vertex}}
+\index{add\+Vertex@{add\+Vertex}!Graph@{Graph}}
+\subsubsection[{add\+Vertex}]{\setlength{\rightskip}{0pt plus 5cm}boolean Graph.\+add\+Vertex (
+\begin{DoxyParamCaption}
+\item[{{\bf Vertex}}]{v}
+\end{DoxyParamCaption}
+)}\label{class_graph_ada66ac66d7a77f7a2b47ca33f7af5105}
+\hypertarget{class_graph_aa58f9b45f4cd1b86169b7fc144175156}{}\index{Graph@{Graph}!connect@{connect}}
+\index{connect@{connect}!Graph@{Graph}}
+\subsubsection[{connect}]{\setlength{\rightskip}{0pt plus 5cm}void Graph.\+connect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_graph_aa58f9b45f4cd1b86169b7fc144175156}
+\hypertarget{class_graph_a252104f18213cb0f6e73487b26d22ef9}{}\index{Graph@{Graph}!get\+Edges@{get\+Edges}}
+\index{get\+Edges@{get\+Edges}!Graph@{Graph}}
+\subsubsection[{get\+Edges}]{\setlength{\rightskip}{0pt plus 5cm}int \mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]} Graph.\+get\+Edges (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_graph_a252104f18213cb0f6e73487b26d22ef9}
+\hypertarget{class_graph_af46666375cb587dac0b9cb030c16a359}{}\index{Graph@{Graph}!get\+Vers@{get\+Vers}}
+\index{get\+Vers@{get\+Vers}!Graph@{Graph}}
+\subsubsection[{get\+Vers}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Vertex} \mbox{[}$\,$\mbox{]} Graph.\+get\+Vers (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_graph_af46666375cb587dac0b9cb030c16a359}
+\hypertarget{class_graph_a413b9997f5a2e850a78ad8f7aad89dab}{}\index{Graph@{Graph}!min\+Span\+Tree@{min\+Span\+Tree}}
+\index{min\+Span\+Tree@{min\+Span\+Tree}!Graph@{Graph}}
+\subsubsection[{min\+Span\+Tree}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Graph} Graph.\+min\+Span\+Tree (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_graph_a413b9997f5a2e850a78ad8f7aad89dab}
+\hypertarget{class_graph_a00e73276d8291687bdfaf701ef32bb0c}{}\index{Graph@{Graph}!remove\+Edge@{remove\+Edge}}
+\index{remove\+Edge@{remove\+Edge}!Graph@{Graph}}
+\subsubsection[{remove\+Edge}]{\setlength{\rightskip}{0pt plus 5cm}void Graph.\+remove\+Edge (
+\begin{DoxyParamCaption}
+\item[{{\bf Vertex}}]{v1, }
+\item[{{\bf Vertex}}]{v2}
+\end{DoxyParamCaption}
+)}\label{class_graph_a00e73276d8291687bdfaf701ef32bb0c}
+\hypertarget{class_graph_a0a5d1176c1e5096f098a1f49271270d3}{}\index{Graph@{Graph}!set\+Edges@{set\+Edges}}
+\index{set\+Edges@{set\+Edges}!Graph@{Graph}}
+\subsubsection[{set\+Edges}]{\setlength{\rightskip}{0pt plus 5cm}void Graph.\+set\+Edges (
+\begin{DoxyParamCaption}
+\item[{int}]{edges\mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\label{class_graph_a0a5d1176c1e5096f098a1f49271270d3}
+\hypertarget{class_graph_a9fa92fc6b57eb073390f5933689909df}{}\index{Graph@{Graph}!set\+Vers@{set\+Vers}}
+\index{set\+Vers@{set\+Vers}!Graph@{Graph}}
+\subsubsection[{set\+Vers}]{\setlength{\rightskip}{0pt plus 5cm}void Graph.\+set\+Vers (
+\begin{DoxyParamCaption}
+\item[{{\bf Vertex}\mbox{[}$\,$\mbox{]}}]{vers}
+\end{DoxyParamCaption}
+)}\label{class_graph_a9fa92fc6b57eb073390f5933689909df}
+\hypertarget{class_graph_a713307d8b2e43a9b717ca80f2d9fc8b0}{}\index{Graph@{Graph}!to\+String@{to\+String}}
+\index{to\+String@{to\+String}!Graph@{Graph}}
+\subsubsection[{to\+String}]{\setlength{\rightskip}{0pt plus 5cm}String Graph.\+to\+String (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_graph_a713307d8b2e43a9b717ca80f2d9fc8b0}
+\hypertarget{class_graph_a3c51c040b54dfabf3f083f754928642f}{}\index{Graph@{Graph}!ver\+In\+Graph@{ver\+In\+Graph}}
+\index{ver\+In\+Graph@{ver\+In\+Graph}!Graph@{Graph}}
+\subsubsection[{ver\+In\+Graph}]{\setlength{\rightskip}{0pt plus 5cm}int Graph.\+ver\+In\+Graph (
+\begin{DoxyParamCaption}
+\item[{{\bf Vertex}}]{v}
+\end{DoxyParamCaption}
+)}\label{class_graph_a3c51c040b54dfabf3f083f754928642f}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_graph_8java}{Graph.\+java}\end{DoxyCompactItemize}

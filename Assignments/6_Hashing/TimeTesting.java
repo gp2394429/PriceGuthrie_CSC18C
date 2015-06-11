@@ -1,0 +1,107 @@
+import java.util.Collections;
+import java.util.Vector;
+import java.util.Random;
+
+public class TimeTesting {
+
+    private static int SIZE = 1000000;
+    private static int TRIALS = 100;
+    private static int APBT_SZE = 26;
+    private static int ASCII_a = 97;
+    private static int ASCII_A = 65;
+    private static int STRING_L = 5;
+
+    public static boolean linearSearch(String elem, Vector<String> v){
+    	int len = v.size();
+        for(int i=0;i<len;i++){
+    		if(v.get(i)==elem){
+    			return true;
+            }
+    	}
+    	return false;
+    }
+    
+    public static boolean binarySearch(String elem, Vector<String> v){
+    	int low=0;
+    	int high=v.size()-1;
+    	while(low<=high){
+    		int mid=low+(high-low)/2;
+    		if(elem.compareTo(v.get(mid))<0){
+    			high=mid-1;
+    		}
+    		else if(elem.compareTo(v.get(mid))>0){
+    			low=mid+1;
+    		}
+    		else
+    			return true;
+    	}
+    	return false;
+    }
+
+    public static String randomString(char[] letters, int size, Random g){
+        char[] result = new char[size];
+        for(int i=0;i<size;i++){
+            result[i] = letters[g.nextInt(APBT_SZE*2)];
+        }
+        return new String(result);
+    }
+
+
+    public static void main(String[] args){
+    	long iTime=0;
+    	long fTime=0;
+        char[] letters = new char[APBT_SZE*2];
+        Random g = new Random();
+        Hash h;
+        Vector strings;
+        Vector searchStrings;
+        for(int i=0;i<APBT_SZE;i++){
+            letters[i] = (char)(i+ASCII_a);
+            letters[i+APBT_SZE] = (char)(i+ASCII_A);
+        }
+        for(int n=1;n<8;n++){
+            strings = new Vector<String>();
+            searchStrings = new Vector<String>();
+
+            for(int i=0;i<SIZE*n;i++){
+                strings.add(i, randomString(letters, STRING_L, g));
+            }
+            for(int i=0;i<TRIALS;i++){
+                if(i<TRIALS/2)
+                    searchStrings.add(i,randomString(letters, STRING_L, g));
+                searchStrings.add(i,strings.get(g.nextInt(SIZE*n)));
+            }
+            
+
+            iTime = System.currentTimeMillis();
+            for(int i=0;i<TRIALS;i++){
+                System.out.println(searchStrings.get(i));
+        	    linearSearch((String)searchStrings.get(i),strings);
+            }
+            fTime = System.currentTimeMillis();
+
+            System.out.println("Size of list: " + n*SIZE);
+            System.out.println("Size of strings: " + STRING_L);
+            System.out.println("Linear search: " + ((float)(fTime-iTime))/(1000));
+
+            h = new Hash(strings);
+
+            Collections.sort(strings);
+            
+            iTime = System.currentTimeMillis();
+            for(int i=0;i<TRIALS;i++){
+        	    binarySearch((String)searchStrings.get(i),strings);
+            }
+            fTime = System.currentTimeMillis();
+            System.out.println("Binary search: " + ((float)(fTime-iTime))/(1000));
+
+            iTime = System.currentTimeMillis();
+            for(int i=0;i<TRIALS;i++){
+        	    h.find((String)searchStrings.get(i));
+            }
+            fTime = System.currentTimeMillis();
+            System.out.println("Hash lookup: " + ((float)(fTime-iTime))/(1000));
+       
+        }
+    }
+}

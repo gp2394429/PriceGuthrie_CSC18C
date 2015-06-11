@@ -1,0 +1,203 @@
+/**
+ * Graph.java
+ *
+ *
+ * Author: Guthrie Price 
+ * 6/10/2015
+ * Purpose: Driver program for the game collection
+ */
+
+import java.util.Vector;
+import java.util.Random;
+
+public class Graph {
+    private int MAX; //The maximum number of verticies that can be in the graph
+    private final int EMPTY = -1; //Represents an empty edge
+    private Vertex[] vers; //The vertecies in the graph
+    private int[][] edges; //The edges in the graph
+    private int numVers; //The number of vertecies in the graph
+    private int numEdges; //The number of edges in the graph
+    private Random generator; //A random number generator in the graph
+
+    //Constructor for the Graph
+    public Graph(int maxSize){
+        //Set default values
+        MAX = maxSize;
+        generator = new Random();
+        vers = new Vertex[MAX];
+        edges = new int[MAX][MAX];
+        numVers = 0;
+        numEdges = 0;
+        //Set null values for vertecies and edges
+        for(int i=0;i<MAX;i++){
+            vers[i]=null;
+            for(int j=0;j<MAX;j++)
+                edges[i][j]=EMPTY;
+        }
+    }
+    //Get the verticies
+    public Vertex[] getVers(){
+        return vers;
+    }
+    //Get the edges
+    public int[][] getEdges(){
+        return edges;
+    }
+    //Set the vertices
+    public void setVers(Vertex[] vers){
+        this.vers = vers;
+    }
+    //Set the edges
+    public void setEdges(int[][] edges){
+       this.edges = edges;
+    } 
+    //Check if the vertex is in a graph
+    //If it is, return its index in vers
+    //Else return -1
+    public int verInGraph(Vertex v){
+        for(int i=0;i<numVers;i++){
+            if(v.equal(vers[i]))
+                return i;
+        }
+        return -1;
+    }
+    //Add a vertex to the graph
+    public boolean addVertex(Vertex v){
+        int vLoc = verInGraph(v); //Get the index of the vertex
+        //If the vertex doesn't exist, add it to the graph and return success
+        if(vLoc < 0){
+            vers[numVers]=v;
+            numVers++;
+            return true;
+        }
+        //If it does exist, return failure
+        else{
+            return false;
+        }
+    }
+    //Add an edge to the graph
+    public boolean addEdge(Vertex start, Vertex end, int weight){
+        int sExists = verInGraph(start); //Get the index of the start vertex
+        int eExists = verInGraph(end); //Get the index of the end vertex
+        //If either of the vertices doesn't exist, the edge can't be made, so return failure
+        if(sExists < 0){
+            System.out.println("Vertex with label "+start.label+" not found");
+            return false;
+        }
+        if(eExists < 0){
+            System.out.println("Vertex with label: "+end.label+" not found");
+            return false;
+        }
+        //Otherwise create the edge and return success
+        edges[sExists][eExists] = weight;
+        edges[eExists][sExists] = weight;
+        numEdges++;
+        return true;
+    }
+    //Connect all verticies in the graph
+    //TODO: Change the function to accept either a constant number for the weights or
+    //      a range to get random numbers for
+    public void connect(){
+        for(int i=0;i<numVers-1;i++){
+             for(int j = i+1;j<numVers;j++){
+                addEdge(vers[i],vers[j],generator.nextInt(100));
+            }
+        }
+    }
+    //Remove an edge
+    public void removeEdge(Vertex v1, Vertex v2){
+        addEdge(v1, v2, EMPTY);
+    }
+    //Create a miniumum spanning tree
+    public Graph minSpanTree(){
+        Graph g = new Graph(MAX); //New graph
+        int curEdge = 0;
+        int mstEdge = 0;
+        Edge newEdges[] = new Edge[numEdges];
+        Edge mst[] = new Edge[numEdges];
+        for(int i=0;i<numVers;i++){
+            g.addVertex(vers[i]);
+        }
+        //Collect all the edges
+        for(int i=0;i<MAX;i++){
+            for(int j=0;j<=i;j++){
+                if(edges[i][j] != -1){
+                    newEdges[curEdge] = new Edge(vers[i],vers[j],edges[i][j]);
+                    curEdge++;
+                }
+            }
+        }
+        //Sort the edges
+        Utility.mrkSrt(newEdges);
+        //Get the minimum spanning tree
+        for(Edge edge : newEdges){
+            if(edge != null){
+                mst[mstEdge] = edge;
+                if(isCyclic(mst))
+                    mst[mstEdge] = null;
+                else
+                    mstEdge++;
+            }
+        }
+        //Add the edges to the new graph
+        for(int i=0;i<mstEdge;i++){
+            g.addEdge(mst[i].v1,mst[i].v2,mst[i].weight);
+        }
+        //Return the new graph
+        return g;
+    }
+    //Checks to see if the graph has a cycle
+    private boolean isCyclic(Edge[] edges){
+        Vertex adjMatrix[][] = new Vertex[MAX][MAX];
+        for(int i=0;i<MAX;i++){
+            for(int j=0;j<MAX;j++)
+                adjMatrix[i][j] = null;
+        }
+        for(Edge edge : edges){
+            if(edge != null){
+                int v1Index = verInGraph(edge.v1);
+                int v2Index = verInGraph(edge.v2);
+                adjMatrix[v1Index][v2Index] = edge.v2;
+                adjMatrix[v2Index][v1Index] = edge.v1;
+            }
+        }
+        Vector<Boolean> returns = new Vector<Boolean>();
+        isCyclicUtil(adjMatrix, new Vector<Vertex>(), edges[0].v1, null, returns);
+        return returns.contains(false);
+    }
+    //Utility function for checking if the graph has a cycle
+    private void isCyclicUtil(Vertex adjMatrix[][], Vector<Vertex> visited, Vertex current, Vertex parent, Vector<Boolean> returns){
+        if(visited.contains(current)){
+            returns.add(false);
+        }
+        else{
+            returns.add(true);
+            visited.add(current);
+            for(Vertex v : adjMatrix[verInGraph(current)]){
+                if(v != null && v != parent)
+                    isCyclicUtil(adjMatrix, visited, v, current, returns);
+            }
+        }
+    }
+    //Returns a string showing all the verticies and edges in the graph
+    public String toString(){
+        String result = "Vertices: [";
+        for(int i=0;i<numVers;i++){
+            result+=vers[i].label;
+            if(i == numVers-1)
+                result+="]\n";
+            else
+                result+=",";
+        }
+        result += "Edges\n--------\n";
+        for(int i=0;i<MAX;i++){
+            for(int j=0;j<i;j++){
+                if(edges[i][j] != EMPTY){
+                    result+= vers[i].label+"<->"+vers[j].label+", Weight="+edges[i][j]+"\n";
+                }
+            }
+        }
+        return result;
+    }
+}
+

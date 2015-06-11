@@ -1,0 +1,29 @@
+/**
+ * AVLNode.java
+ *
+ *
+ * Author: Guthrie Price
+ * Date: 6/10/2015 
+ * Purpose: A stack used to generate the cards for the memory game
+ */
+
+public class AVLNode{
+
+    AVLNode left;
+    AVLNode right;
+    int data;
+    int height;
+
+    public AVLNode(){
+        left = null;
+        right = null;
+        data = 0;
+        height = 0;
+    }
+    public AVLNode(int n){
+        left = null;
+        right = null;
+        data = n;
+        height = 0;
+    }     
+}

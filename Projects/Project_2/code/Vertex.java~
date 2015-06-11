@@ -1,0 +1,12 @@
+public class Vertex{
+
+    int label;
+
+    public Vertex(int label){
+        this.label = label;
+
+    }
+    public boolean equal(Vertex v){
+        return label == v.label;
+    }
+}

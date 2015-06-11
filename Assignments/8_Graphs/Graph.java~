@@ -1,0 +1,152 @@
+import java.util.Vector;
+
+public class Graph {
+    private final int MAX = 5;
+    private final int EMPTY = -1;
+    private int[] vers;
+    private int[][] edges;
+    private int numVers;
+    private int numEdges;
+
+    public Graph(){
+        vers = new int[MAX];
+        edges = new int[MAX][MAX];
+        for(int i=0;i<MAX;i++){
+            vers[i]=EMPTY;
+            for(int j=0;j<MAX;j++)
+                edges[i][j]=EMPTY;
+        }
+        numVers = 0;
+        numEdges = 0;
+    }
+    private int verInGraph(int v){
+        for(int i=0;i<numVers;i++){
+            if(v == vers[i])
+                return i;
+        }
+        return -1;
+    }
+    public boolean addVertex(int v){
+        int vLoc = verInGraph(v);
+        if(vLoc < 0){
+            vers[numVers]=v;
+            numVers++;
+            return true;
+        }
+        else{
+            System.out.println("Vertex already exists");
+            return false;
+        }
+    }
+    public boolean addEdge(int start, int end, int weight){
+        int sExists = verInGraph(start);
+        int eExists = verInGraph(end);
+        if(sExists < 0){
+            System.out.println("Vertex with label "+start+" not found");
+            return false;
+        }
+        if(eExists < 0){
+            System.out.println("Vertex with label: "+end+" not found");
+            return false;
+        }
+        if(weight == 0)
+            weight = 1;
+        edges[start][end] = weight;
+        edges[end][start] = weight;
+        numEdges++;
+        return true;
+    }
+    public Graph minSpanTree(){
+        Graph g = new Graph(); //New graph
+        int curEdge = 0;
+        int mstEdge = 0;
+        Edge newEdges[] = new Edge[numEdges];
+        Edge mst[] = new Edge[numEdges];
+        for(int i=0;i<numVers;i++){
+            g.addVertex(vers[i]);
+        }
+        //Collect all the edges
+        for(int i=0;i<MAX;i++){
+            for(int j=0;j<=i;j++){
+                if(edges[i][j] != -1){
+                    newEdges[curEdge] = new Edge(i,j,edges[i][j]);
+                    curEdge++;
+                }
+            }
+        }
+        //Sort the edges
+        Utility.mrkSrt(newEdges);
+        //Get the minimum spanning tree
+        for(Edge edge : newEdges){
+            if(edge != null){
+                mst[mstEdge] = edge;
+                if(isCyclic(mst))
+                    mst[mstEdge] = null;
+                else
+                    mstEdge++;
+            }
+        }
+        //Add the edges to the new graph
+        for(int i=0;i<mstEdge;i++){
+            g.addEdge(mst[i].v1,mst[i].v2,mst[i].weight);
+        }
+        //Return the new graph
+        return g;
+    }  
+    private boolean isCyclic(Edge[] edges){
+        int adjMatrix[][] = new int[MAX][MAX];
+        for(int i=0;i<MAX;i++){
+            for(int j=0;j<MAX;j++)
+                adjMatrix[i][j] = EMPTY;
+        }
+        for(Edge edge : edges){
+            if(edge != null){
+                adjMatrix[edge.v1][edge.v2] = edge.v2;
+                adjMatrix[edge.v2][edge.v1] = edge.v1;
+            }
+        }
+        Vector<Boolean> returns = new Vector<Boolean>();
+        isCyclicUtil(adjMatrix, new Vector<Integer>(), edges[0].v1, EMPTY, returns);
+        return returns.contains(false);
+    }   
+    private void isCyclicUtil(int adjMatrix[][], Vector<Integer> visited, int current, int parent, Vector<Boolean> returns){
+        if(visited.contains(current)){
+            returns.add(false);
+        }
+        else{
+            returns.add(true);
+            visited.add(current);
+            for(int v : adjMatrix[current]){
+                if(v != EMPTY && v != parent)
+                    isCyclicUtil(adjMatrix, visited, v, current, returns);
+            }
+        }
+    }
+    private boolean elementOf(int[] array, int item){
+        for(int a: array){
+            if(item == a)
+                return true;
+        }
+        return false;
+    }
+    public String toString(){
+        String result = "Vertcies: [";
+        for(int i=0;i<numVers;i++){
+            result+=vers[i];
+            if(i == numVers-1)
+                result+="]\n";
+            else
+                result+=",";
+        }
+        result += "Edges\n--------\n";
+        for(int i=0;i<MAX;i++){
+            for(int j=0;j<i;j++){
+                if(edges[i][j] != EMPTY){
+                    result+= i+"->"+j+", Weight="+edges[i][j]+"\n";
+                }
+            }
+        }
+        return result;
+    }
+}
+
